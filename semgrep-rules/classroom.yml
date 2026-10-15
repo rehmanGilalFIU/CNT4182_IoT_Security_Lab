@@ -1,0 +1,31 @@
+rules:
+  - id: cnt4182-raw-sql-concatenation
+    languages: [python]
+    severity: ERROR
+    message: "Potential SQL injection: SQL constructed using string concatenation."
+    pattern: $SQL = "..." + $INPUT + "..."
+  - id: cnt4182-hardcoded-secret
+    languages: [python]
+    severity: WARNING
+    message: "Potential hardcoded secret or credential."
+    pattern-regex: '(?i)(secret_key|device_token|default_admin)\s*=\s*'
+  - id: cnt4182-template-from-input
+    languages: [python]
+    severity: ERROR
+    message: "Review dynamic template rendering and user-controlled input."
+    pattern: render_template_string($TEMPLATE)
+  - id: cnt4182-md5
+    languages: [python]
+    severity: WARNING
+    message: "MD5 is not suitable for security-sensitive integrity verification."
+    pattern: hashlib.md5(...)
+  - id: cnt4182-insecure-cookie
+    languages: [python]
+    severity: WARNING
+    message: "Session cookie security flag disabled."
+    pattern: $APP.config['SESSION_COOKIE_SECURE'] = False
+  - id: cnt4182-http-only-disabled
+    languages: [python]
+    severity: WARNING
+    message: "Session cookie HttpOnly flag disabled."
+    pattern: $APP.config['SESSION_COOKIE_HTTPONLY'] = False
